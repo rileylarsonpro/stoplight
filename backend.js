@@ -25,7 +25,7 @@ app.get('/joke', cors(), (req,res) => {
       } else {
         LED.writeSync(0); //set pin state to 0 (turn LED off)
     }
-    res.status(200).send(response)
+    res.status(200).send()
 })
 
 
