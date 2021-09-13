@@ -1,0 +1,22 @@
+{
+  "name": "stoplight",
+  "version": "1.0.0",
+  "description": "",
+  "main": "backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rileylarsonpro/stoplight.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rileylarsonpro/stoplight/issues"
+  },
+  "homepage": "https://github.com/rileylarsonpro/stoplight#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
