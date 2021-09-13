@@ -45,4 +45,4 @@ app.post('/joke', cors(), (req,res) => {
     // Send confirmation 
     let response = { message: "Added a Joke to the Bank"}
     res.status(200).send(response)
-}
+})
