@@ -26,7 +26,7 @@ function blinkLED() { //function to start blinking
       LED.writeSync(0); //set pin state to 0 (turn LED off)
     }
   }
-function endBlink(blinkInterval) { //function to stop blinking
+function endBlink() { //function to stop blinking
     clearInterval(blinkInterval); // Stop blink intervals
     LED.writeSync(0); // Turn LED off
     LED.unexport(); // Unexport GPIO to free resources
