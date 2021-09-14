@@ -33,7 +33,7 @@ function turnOfAuto() {
 }
 // [GET] /color_on endpoints
 app.get('/red_on', cors(), (req,res) => {
-    turnOfAuto()
+    if (auto) turnOfAuto()
     if (RED_LED.readSync() === 0) { //check the pin state, if the state is 0 (or off)
         RED_LED.writeSync(1); //set pin state to 1 (turn LED on)
 
@@ -46,7 +46,7 @@ app.get('/red_on', cors(), (req,res) => {
 })
 
 app.get('/yellow_on', cors(), (req,res) => {
-    turnOfAuto()
+    if (auto) turnOfAuto()
     if (YELLOW_LED.readSync() === 0) { 
         YELLOW_LED.writeSync(1); 
 
@@ -59,7 +59,7 @@ app.get('/yellow_on', cors(), (req,res) => {
 })
 
 app.get('/green_on', cors(), (req,res) => {
-    turnOfAuto()
+    if (auto) turnOfAuto()
     if (GREEN_LED.readSync() === 0) { 
         GREEN_LED.writeSync(1); 
 
