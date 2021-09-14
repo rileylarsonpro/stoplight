@@ -12,7 +12,7 @@ app.use(cors())
 
 // Next two lines from https://www.w3schools.com/nodejs/nodejs_raspberrypi_blinking_led.asp
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
-var LED = new Gpio(11, 'out'); //use GPIO pin 4, and specify that it is output
+var LED = new Gpio(17, 'out'); //use GPIO pin 4, and specify that it is output
 
 // Start up on port 8080 
 const server = app.listen(8080, () => {
