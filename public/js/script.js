@@ -1,12 +1,15 @@
-
+const RPI_IP = "10.4.9.190:8080"
 function redClicked() {
-    console.log("Red clicked")
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://" + RPI_IP + "/red_on");
 }
 function yellowClicked() {
-    console.log("Yellow clicked")
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://" + RPI_IP + "/yello_on");
 }
 function greenClicked() {
-    console.log("Green clicked")
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://" + RPI_IP + "/green_on");
 }
 function allOff() {
     console.log("all off")
