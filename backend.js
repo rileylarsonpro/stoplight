@@ -68,6 +68,12 @@ app.get('/all_off', cors(), (req,res) => {
 
     res.status(200).send()
 })
+// Function from this SO Question: https://stackoverflow.com/questions/14249506/how-can-i-wait-in-node-js-javascript-l-need-to-pause-for-a-period-of-time
+function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
 
 app.get('/auto', cors(), async (req,res) => {
     GREEN_LED.writeSync(0); 
