@@ -1,4 +1,5 @@
 const RPI_IP = "10.4.9.190:8080"
+
 function redClicked() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/red_on");
@@ -23,11 +24,15 @@ function auto() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/auto");
     xhr.send()
+    document.getElementById("auto-btn").hidden = true;
+    document.getElementById("manual-btn").hidden = false;
 }
 function manaul() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/manaul");
     xhr.send()
+    document.getElementById("auto-btn").hidden = false;
+    document.getElementById("manual-btn").hidden = true;
 }
 function getAutoStatus() {
     var xhr = new XMLHttpRequest();
@@ -35,7 +40,15 @@ function getAutoStatus() {
     xhr.addEventListener("load", (e) => {
         // Handle the response
         const response = JSON.parse(e.target.responseText);
-        console.log("res", response)
+        response.status
+        if (response.status) {// If in auto state
+            document.getElementById("auto-btn").hidden = true;
+            document.getElementById("manual-btn").hidden = false;
+        }
+        else {
+            document.getElementById("auto-btn").hidden = false;
+            document.getElementById("manual-btn").hidden = true;
+        }
     })
     xhr.send()
 }
