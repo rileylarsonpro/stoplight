@@ -30,13 +30,7 @@ function manaul() {
     xhr.send()
 }
 function getAutoStatus() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://" + RPI_IP + "/auto_status");
-    xhr.addEventListener("load", (e) => {
-        // Handle the response
-        console.log("res", e)
-        //const response = JSON.parse(e.target.responseText);
- 
-    })
-    xhr.send()
+    fetch("GET", "http://" + RPI_IP + "/auto_status")
+        .then(response => response.json())
+        .then(data => console.log(data));
 }
