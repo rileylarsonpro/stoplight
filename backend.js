@@ -100,7 +100,7 @@ app.get('/auto', cors(), async (req,res) => {
     res.status(200).send()
 })
 
-app.get('/manaul', cors(), (req, res) => {
+app.get('/manual', cors(), (req, res) => {
     auto = false
     GREEN_LED.writeSync(0); 
     RED_LED.writeSync(0); 

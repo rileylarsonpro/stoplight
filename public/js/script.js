@@ -27,9 +27,9 @@ function auto() {
     document.getElementById("auto-btn").hidden = true;
     document.getElementById("manual-btn").hidden = false;
 }
-function manaul() {
+function manual() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://" + RPI_IP + "/manaul");
+    xhr.open("GET", "http://" + RPI_IP + "/manual");
     xhr.send()
     document.getElementById("auto-btn").hidden = false;
     document.getElementById("manual-btn").hidden = true;
