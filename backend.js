@@ -79,18 +79,37 @@ app.get('/auto', cors(), async (req,res) => {
     GREEN_LED.writeSync(0); 
     RED_LED.writeSync(0); 
     YELLOW_LED.writeSync(0); 
-    auto = !auto
+    auto = true
     while (auto){
         RED_LED.writeSync(1); 
         await sleep(2000);
+        if (!auto) break
         RED_LED.writeSync(0); 
+
         YELLOW_LED.writeSync(1); 
         await sleep(2000);
+        if (!auto) break
         YELLOW_LED.writeSync(0); 
+
         GREEN_LED.writeSync(1); 
         await sleep(2000);
+        if (!auto) break
         GREEN_LED.writeSync(0); 
     }
    
     res.status(200).send()
 })
+
+app.get('/manaul', cors(), (req, res) => {
+    auto = false
+    GREEN_LED.writeSync(0); 
+    RED_LED.writeSync(0); 
+    YELLOW_LED.writeSync(0); 
+
+    res.status(200).send()
+}) 
+
+app.get('auto_status', cors(), (req,res) => {
+    res.status(200).send(auto)
+})
+

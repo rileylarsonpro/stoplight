@@ -19,8 +19,23 @@ function allOff() {
     xhr.open("GET", "http://" + RPI_IP + "/all_off");
     xhr.send()
 }
-function toggleAuto() {
+function auto() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/auto");
+    xhr.send()
+}
+function manaul() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://" + RPI_IP + "/manaul");
+    xhr.send()
+}
+function getAutoStatus() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://" + RPI_IP + "/auto_status");
+    xhr.addEventListener("load", (e) => {
+        // Handle the response
+        const response = JSON.parse(e.target.responseText);
+        console.log("res", response)
+    })
     xhr.send()
 }
