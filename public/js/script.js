@@ -6,7 +6,7 @@ function redClicked() {
 }
 function yellowClicked() {
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://" + RPI_IP + "/yello_on");
+    xhr.open("GET", "http://" + RPI_IP + "/yellow_on");
     xhr.send()
 }
 function greenClicked() {
