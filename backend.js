@@ -3,6 +3,8 @@ const express = require('express')
 let app = express()
 let cors = require('cors')
 
+let auto = false
+
 // Get files from public folder     
 app.use(express.static(__dirname + '/public'))
 
@@ -56,5 +58,33 @@ app.get('/green_on', cors(), (req,res) => {
       } else {
         GREEN_LED.writeSync(0); 
     }
+    res.status(200).send()
+})
+
+app.get('/all_off', cors(), (req,res) => {
+    GREEN_LED.writeSync(0); 
+    RED_LED.writeSync(0); 
+    YELLOW_LED.writeSync(0); 
+
+    res.status(200).send()
+})
+
+app.get('/auto', cors(), (req,res) => {
+    GREEN_LED.writeSync(0); 
+    RED_LED.writeSync(0); 
+    YELLOW_LED.writeSync(0); 
+    auto = !auto
+    while (auto){
+        RED_LED.writeSync(1); 
+        await sleep(2000);
+        RED_LED.writeSync(0); 
+        YELLOW_LED.writeSync(1); 
+        await sleep(2000);
+        YELLOW_LED.writeSync(0); 
+        GREEN_LED.writeSync(1); 
+        await sleep(2000);
+        GREEN_LED.writeSync(0); 
+    }
+   
     res.status(200).send()
 })

@@ -15,7 +15,9 @@ function greenClicked() {
     xhr.send()
 }
 function allOff() {
-    console.log("all off")
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://" + RPI_IP + "/all_off");
+    xhr.send()
 }
 function toggleAuto() {
     console.log("toggle auto")
