@@ -69,7 +69,7 @@ app.get('/all_off', cors(), (req,res) => {
     res.status(200).send()
 })
 
-app.get('/auto', cors(), (req,res) => {
+app.get('/auto', cors(), async (req,res) => {
     GREEN_LED.writeSync(0); 
     RED_LED.writeSync(0); 
     YELLOW_LED.writeSync(0); 
