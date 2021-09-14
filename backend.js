@@ -87,7 +87,7 @@ app.get('/auto', cors(), async (req,res) => {
     RED_LED.writeSync(0); 
     YELLOW_LED.writeSync(0); 
     auto = true
-    while (auto){
+    while (auto){ // Loop until auto is turned off
         RED_LED.writeSync(1); 
         await sleep(2000);
         if (!auto) break

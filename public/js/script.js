@@ -24,6 +24,7 @@ function allOff() {
     xhr.open("GET", "http://" + RPI_IP + "/all_off");
     xhr.send()
 }
+// Start auto mode and show manual button
 function auto() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/auto");
@@ -31,10 +32,12 @@ function auto() {
     document.getElementById("auto-btn").hidden = true;
     document.getElementById("manual-btn").hidden = false;
 }
+// Show Automatic button
 function manual() {
     document.getElementById("auto-btn").hidden = false;
     document.getElementById("manual-btn").hidden = true;
 }
+// Check if stoplight is in auto state
 function getAutoStatus() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/auto_status");
