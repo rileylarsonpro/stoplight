@@ -30,7 +30,7 @@ function manaul() {
     xhr.send()
 }
 function getAutoStatus() {
-    fetch("GET", "http://" + RPI_IP + "/auto_status")
+    fetch("http://" + RPI_IP + "/auto_status")
         .then(response => response.json())
         .then(data => console.log(data));
 }
