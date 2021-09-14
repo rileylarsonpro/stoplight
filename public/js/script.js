@@ -20,5 +20,7 @@ function allOff() {
     xhr.send()
 }
 function toggleAuto() {
-    console.log("toggle auto")
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://" + RPI_IP + "/auto");
+    xhr.send()
 }
