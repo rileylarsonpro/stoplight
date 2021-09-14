@@ -34,8 +34,9 @@ function getAutoStatus() {
     xhr.open("GET", "http://" + RPI_IP + "/auto_status");
     xhr.addEventListener("load", (e) => {
         // Handle the response
-        const response = JSON.parse(e.target.responseText);
-        console.log("res", response)
+        console.log("res", e)
+        //const response = JSON.parse(e.target.responseText);
+ 
     })
     xhr.send()
 }

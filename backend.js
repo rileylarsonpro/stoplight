@@ -110,6 +110,7 @@ app.get('/manaul', cors(), (req, res) => {
 }) 
 
 app.get('auto_status', cors(), (req,res) => {
+    console.log(auto)
     res.status(200).send({status: auto})
 })
 
