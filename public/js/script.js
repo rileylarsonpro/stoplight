@@ -1,21 +1,25 @@
 const RPI_IP = "10.4.9.190:8080"
 
 function redClicked() {
+    manual()
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/red_on");
     xhr.send()
 }
 function yellowClicked() {
+    manual()
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/yellow_on");
     xhr.send()
 }
 function greenClicked() {
+    manual()
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/green_on");
     xhr.send()
 }
 function allOff() {
+    manual()
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://" + RPI_IP + "/all_off");
     xhr.send()
@@ -28,9 +32,6 @@ function auto() {
     document.getElementById("manual-btn").hidden = false;
 }
 function manual() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://" + RPI_IP + "/manual");
-    xhr.send()
     document.getElementById("auto-btn").hidden = false;
     document.getElementById("manual-btn").hidden = true;
 }

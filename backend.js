@@ -24,8 +24,16 @@ var RED_LED = new Gpio(17, 'out'); //use GPIO pin 4, and specify that it is outp
 var YELLOW_LED = new Gpio(27, 'out'); //use GPIO pin 4, and specify that it is output
 var GREEN_LED = new Gpio(22, 'out'); //use GPIO pin 4, and specify that it is output
 
+
+function turnOfAuto() {
+    auto = false
+    GREEN_LED.writeSync(0); 
+    RED_LED.writeSync(0); 
+    YELLOW_LED.writeSync(0); 
+}
 // [GET] /color_on endpoints
 app.get('/red_on', cors(), (req,res) => {
+    turnOfAuto()
     if (RED_LED.readSync() === 0) { //check the pin state, if the state is 0 (or off)
         RED_LED.writeSync(1); //set pin state to 1 (turn LED on)
 
@@ -38,6 +46,7 @@ app.get('/red_on', cors(), (req,res) => {
 })
 
 app.get('/yellow_on', cors(), (req,res) => {
+    turnOfAuto()
     if (YELLOW_LED.readSync() === 0) { 
         YELLOW_LED.writeSync(1); 
 
@@ -50,6 +59,7 @@ app.get('/yellow_on', cors(), (req,res) => {
 })
 
 app.get('/green_on', cors(), (req,res) => {
+    turnOfAuto()
     if (GREEN_LED.readSync() === 0) { 
         GREEN_LED.writeSync(1); 
 
@@ -62,10 +72,7 @@ app.get('/green_on', cors(), (req,res) => {
 })
 
 app.get('/all_off', cors(), (req,res) => {
-    GREEN_LED.writeSync(0); 
-    RED_LED.writeSync(0); 
-    YELLOW_LED.writeSync(0); 
-
+    turnOfAuto()
     res.status(200).send()
 })
 // Function from this SO Question: https://stackoverflow.com/questions/14249506/how-can-i-wait-in-node-js-javascript-l-need-to-pause-for-a-period-of-time
@@ -99,15 +106,6 @@ app.get('/auto', cors(), async (req,res) => {
    
     res.status(200).send()
 })
-
-app.get('/manual', cors(), (req, res) => {
-    auto = false
-    GREEN_LED.writeSync(0); 
-    RED_LED.writeSync(0); 
-    YELLOW_LED.writeSync(0); 
-
-    res.status(200).send()
-}) 
 
 app.get('/auto_status', cors(), (req,res) => {
     res.status(200).send({status: auto})
