@@ -1,0 +1,154 @@
+<!-- Base File from https://codepen.io/BendyWendy/pen/pbyxxz -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Riley's Stoplight </title>
+    <!-- Links to stylesheets -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Link to Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- Custom style sheet-->
+    <style>
+        /* Base File from https://codepen.io/BendyWendy/pen/pbyxxz */
+        * {
+            margin: 20px auto;
+        }
+        
+        div {
+            margin-bottom: 0px;
+        }
+        
+        p {
+            text-align: center;
+            padding: 40px 0px 0px 10px;
+            font-family: helvetica;
+        }
+        
+        .Red {
+            width: 100px;
+            height: 100px;
+            background: #FF0000;
+            -moz-border-radius: 50px;
+            -webkit-border-radius: 50px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        
+        .Yellow {
+            width: 100px;
+            height: 100px;
+            background: #FFFF00;
+            -moz-border-radius: 50px;
+            -webkit-border-radius: 50px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        
+        .Green {
+            width: 100px;
+            height: 100px;
+            background: #00FF00;
+            -moz-border-radius: 50px;
+            -webkit-border-radius: 50px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        
+        .rectangle {
+            width: 200px;
+            height: 400px;
+            background: #000000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index:-1;
+        }
+        
+        
+        
+        
+    </style>
+
+</head>
+
+<body>
+
+    <div class="Red" onclick="redClicked()"> </div>
+
+    <div class="Yellow" onclick="yellowClicked()"> </div>
+
+    <div class="Green" onclick="greenClicked()"> </div>
+    
+    <div class="Pole"> </div>
+
+    <div class="rectangle"> </div>
+
+    <div class="overlay"> </div>
+    <br>
+    <br>
+    <div class="container text-center">
+        <button type="button" class="btn btn-secondary" onclick="allOff()">All Off</button>
+        <button id="auto-btn" type="button" class="btn btn-secondary" onclick="auto()">Automatic</button>
+        <button id="manual-btn" type="button" class="btn btn-secondary" onclick="allOff()">Manual</button>
+    </div>
+    <!-- Links to scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <!--Custom JS file-->
+    <script>
+        const RPI_IP = "10.4.9.186"
+
+        function redClicked() {
+            manual()
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://" + RPI_IP + "/red_on");
+            xhr.send()
+        }
+        function yellowClicked() {
+            manual()
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://" + RPI_IP + "/yellow_on");
+            xhr.send()
+        }
+        function greenClicked() {
+            manual()
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://" + RPI_IP + "/green_on");
+            xhr.send()
+        }
+        function allOff() {
+            manual()
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://" + RPI_IP + "/all_off");
+            xhr.send()
+        }
+        // Start auto mode and show manual button
+        function auto() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://" + RPI_IP + "/auto");
+            xhr.send()
+            document.getElementById("auto-btn").hidden = true;
+            document.getElementById("manual-btn").hidden = false;
+        }
+        // Show Automatic button
+        function manual() {
+            document.getElementById("auto-btn").hidden = false;
+            document.getElementById("manual-btn").hidden = true;
+        }
+    </script>
+</body>
+
+</html>
