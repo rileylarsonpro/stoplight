@@ -9,11 +9,27 @@ WiFiServer server(80);                // This sets which port our server will li
 int RED = D7;                       // Sets which GPIO pin we will use for the LEDS
 int YELLOW = D6;  
 int GREEN = D5;    
-boolean redState = false;
+boolean redState = false;            // Tracks state of LEDS
 boolean yellowState = false;
 boolean greenState = false;
-                    
 
+unsigned long timer1 = 0;
+unsigned long timer2 = 0;
+unsigned long timer3 = 0;
+boolean autoState = false;
+
+//Helper function to turn all lights off
+void allOff() {
+      Serial.println("all off called");
+      autoState = false;
+      digitalWrite(GREEN, LOW);             
+      greenState = false;                    
+      digitalWrite(RED, LOW);                       
+      redState = false;
+      digitalWrite(YELLOW, LOW);
+      yellowState = false; 
+    return;
+}
 
 void setup() {                        // Perform this part once when first powered on
   Serial.begin(9600);               // Open a serial connection (for debugging)
@@ -46,13 +62,14 @@ void setup() {                        // Perform this part once when first power
   server.begin();                           // Start the web server
   Serial.println("Server started");
 
-  Serial.print("Control the LED Flashlight at: ");          // Print the connected IP address to the Serial Monitor
+  Serial.print("Control the LED Stoplight at: ");          // Print the connected IP address to the Serial Monitor
   Serial.print("http://");
   Serial.print(WiFi.localIP());
   Serial.println("/");
 } // ** End Adapted Code - This is the end of the code that was adapted from www.esp8266learning.com
 
-void loop() { // ** Create a web server - Adapted from http://www.esp8266learning.com/wemos-webserver-example.php
+
+void loop() { // ** Create a web server - Adapted from https://github.com/todddb/example-lab/blob/master/example-lab/example-lab.ino
   WiFiClient client = server.available(); // Create a new client object for available connections
   if (client) {                           // If a client is connected, wait until it sends some data
     while (!client.available()) {         // If the client hasn't sent info, wait for it
@@ -64,6 +81,7 @@ void loop() { // ** Create a web server - Adapted from http://www.esp8266learnin
     client.flush();                       // Wait until the buffers are clear
 
     if (request.indexOf("/red_on") != -1) {   // If the request is for the page "/red_on"
+      autoState = false;
       digitalWrite(RED, !redState);             //   then set the RED to high (turn on)
       redState = !redState;                        //   and track the state 
       
@@ -73,6 +91,7 @@ void loop() { // ** Create a web server - Adapted from http://www.esp8266learnin
       greenState = false;
     }
     if (request.indexOf("/yellow_on") != -1) {   // If the request is for the page "/yellow_on"
+      autoState = false;
       digitalWrite(YELLOW, !yellowState);             //   then set the YELLOW to high (turn on)
       yellowState = !yellowState;                       //   and track the state
       
@@ -82,35 +101,29 @@ void loop() { // ** Create a web server - Adapted from http://www.esp8266learnin
       greenState = false;
     }
     if (request.indexOf("/green_on") != -1) {   // If the request is for the page "/green_on"
+      autoState = false;
       digitalWrite(GREEN, !greenState);             //   then set the GREEN to high (turn on)
       greenState = !greenState;                        //   and track the state  
       
       digitalWrite(RED, LOW);                       //Turn off other lights
       redState = false;
       digitalWrite(YELLOW, LOW);
-       yellowState = false; 
+      yellowState = false; 
     }
     if (request.indexOf("/all_off") != -1) {   // If the request is for the page "/all_off"
-      digitalWrite(GREEN, LOW);             
-      greenState = false;                    
-      digitalWrite(RED, LOW);                       
-      redState = false;
-      digitalWrite(YELLOW, LOW);
-      yellowState = false; 
+      allOff();
     }
-     if (request.indexOf("/auto") != -1) {   // If the request is for the page "/all_off"
-      digitalWrite(GREEN, LOW);             
-      greenState = false;                    
-      digitalWrite(RED, LOW);                       
-      redState = false;
-      digitalWrite(YELLOW, LOW);
-      yellowState = false; 
-    }
- 
- 
-    // ** End Adapted Code - This is the end of the code that was adapted from www.esp8266learning.com
 
-    // Return the response
+ 
+    // ** End Adapted Code - This is the end of the code that was adapted from https://github.com/todddb/example-lab/blob/master/example-lab/example-lab.ino
+     if (request.indexOf("/auto") != -1) {   // If the request is for the page "/auto"
+      allOff();
+      autoState = true;
+     }
+     
+     
+ 
+    // Return the html page
     client.println("HTTP/1.1 200 OK");
     client.println("Content-Type: text/html");
     client.println("");
@@ -228,7 +241,8 @@ void loop() { // ** Create a web server - Adapted from http://www.esp8266learnin
     client.print("const RPI_IP = \"");
     client.print(WiFi.localIP());
     client.println("\"");
-
+    client.println("        document.getElementById(\"auto-btn\").hidden = " + (String)autoState);
+    client.println("        document.getElementById(\"manual-btn\").hidden = " + (String)!autoState);
     client.println("        function redClicked() {");
     client.println("            manual()");
     client.println("            var xhr = new XMLHttpRequest();");
@@ -271,5 +285,39 @@ void loop() { // ** Create a web server - Adapted from http://www.esp8266learnin
 
     client.println("</html>");
   }
+  
+       if (autoState == true){ // run if auto is turned on
+        if(millis() > timer3) {
+          timer1 = millis() + 2000;
+          timer2 = millis() + 4000;
+          timer3 = millis() + 5000;
+        }
+        if (timer1 > millis()) {
+          Serial.println("in loop 1 :");
+          Serial.println(timer1);
+          Serial.println(millis());
+          digitalWrite(YELLOW, LOW);  
+          yellowState = false;
+          digitalWrite(RED, HIGH);  
+          redState = true;
+        }
+        if (timer2 > millis() && millis() > timer1) {
+          Serial.println("in loop 2 :");
+          Serial.println(timer2);
+          digitalWrite(RED, LOW); 
+          redState = false; 
+          
+          digitalWrite(GREEN, HIGH);  
+          greenState = true;
+        }
+        if (timer3 > millis() && millis() > timer2) {
+         Serial.println("in loop 3 :");
+          Serial.println(timer3);
+          digitalWrite(GREEN, LOW); 
+          greenState = false; 
+          digitalWrite(YELLOW, HIGH);  
+          yellowState = true;
+        }
+      }
   delay(100); // This introduces a little pause in each cycle. Probably helps save some power.
 }
