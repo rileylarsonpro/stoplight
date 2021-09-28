@@ -1,8 +1,8 @@
 #include <ESP8266WiFi.h>              // This includes the libraries to connect to wifi and start a server
 
 //const char* wifiSSID = "BYU-WiFi";    // In order for this to work, you MUST specify the SSID for your wifi
-const char* wifiSSID = "Riley BYU";
-const char* wifiPSK  = "darkesttimeline";            // And the preshared key (wifi password)
+const char* wifiSSID = "";
+const char* wifiPSK  = "";            // And the preshared key (wifi password)
 
 WiFiServer server(80);                // This sets which port our server will listen on
 
