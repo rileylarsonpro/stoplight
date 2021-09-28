@@ -1,8 +1,12 @@
 #include <ESP8266WiFi.h>              // This includes the libraries to connect to wifi and start a server
 
 //const char* wifiSSID = "BYU-WiFi";    // In order for this to work, you MUST specify the SSID for your wifi
-const char* wifiSSID = "";
+//const char* wifiPSK  = "";   
+//const char* wifiSSID = "Riley BYU";
 const char* wifiPSK  = "";            // And the preshared key (wifi password)
+const char* wifiSSID = "Riley iPhone";
+//const char* wifiPSK  = "";     
+
 
 WiFiServer server(80);                // This sets which port our server will listen on
 
@@ -20,7 +24,6 @@ boolean autoState = false;
 
 //Helper function to turn all lights off
 void allOff() {
-      Serial.println("all off called");
       autoState = false;
       digitalWrite(GREEN, LOW);             
       greenState = false;                    
@@ -241,7 +244,7 @@ void loop() { // ** Create a web server - Adapted from https://github.com/todddb
     client.print("const RPI_IP = \"");
     client.print(WiFi.localIP());
     client.println("\"");
-    client.println("        document.getElementById(\"auto-btn\").hidden = " + (String)autoState);
+    client.println("        document.getElementById(\"auto-btn\").hidden = " + (String)autoState); // Set button state on refresh
     client.println("        document.getElementById(\"manual-btn\").hidden = " + (String)!autoState);
     client.println("        function redClicked() {");
     client.println("            manual()");
@@ -293,17 +296,12 @@ void loop() { // ** Create a web server - Adapted from https://github.com/todddb
           timer3 = millis() + 5000;
         }
         if (timer1 > millis()) {
-          Serial.println("in loop 1 :");
-          Serial.println(timer1);
-          Serial.println(millis());
           digitalWrite(YELLOW, LOW);  
           yellowState = false;
           digitalWrite(RED, HIGH);  
           redState = true;
         }
         if (timer2 > millis() && millis() > timer1) {
-          Serial.println("in loop 2 :");
-          Serial.println(timer2);
           digitalWrite(RED, LOW); 
           redState = false; 
           
@@ -311,8 +309,6 @@ void loop() { // ** Create a web server - Adapted from https://github.com/todddb
           greenState = true;
         }
         if (timer3 > millis() && millis() > timer2) {
-         Serial.println("in loop 3 :");
-          Serial.println(timer3);
           digitalWrite(GREEN, LOW); 
           greenState = false; 
           digitalWrite(YELLOW, HIGH);  
