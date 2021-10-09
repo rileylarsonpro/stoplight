@@ -66,9 +66,9 @@ void loop() {
      url += "/red_on";
   }
   else { // FLASHING STATE
-    url += "/all_off";
+    url += "/toggle_red";
   }
   // Code adapted from https://esp8266-shop.com/blog/how-to-http-get-and-post-requests-with-esp8266/
   client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + stoplightIP + "\r\n" + "Connection: close\r\n\r\n");
-  delay(50);
+  delay(500);
 }

@@ -1,11 +1,7 @@
 #include <ESP8266WiFi.h>              // This includes the libraries to connect to wifi and start a server
 
-//const char* wifiSSID = "BYU-WiFi";    // In order for this to work, you MUST specify the SSID for your wifi
-//const char* wifiPSK  = "";   
-//const char* wifiSSID = "Riley BYU";
-const char* wifiPSK  = "";            // And the preshared key (wifi password)
-const char* wifiSSID = "Riley iPhone";
-//const char* wifiPSK  = "";     
+const char* wifiPSK  = "darkesttimeline";            // And the preshared key (wifi password)
+const char* wifiSSID = "Riley iPhone";    // In order for this to work, you MUST specify the SSID for your wifi
 
 
 WiFiServer server(80);                // This sets which port our server will listen on
@@ -85,8 +81,8 @@ void loop() { // ** Create a web server - Adapted from https://github.com/todddb
 
     if (request.indexOf("/red_on") != -1) {   // If the request is for the page "/red_on"
       autoState = false;
-      digitalWrite(RED, !redState);             //   then set the RED to high (turn on)
-      redState = !redState;                        //   and track the state 
+      digitalWrite(RED, HIGH);             //   then set the RED to high (turn on)
+      redState = true;                        //   and track the state 
       
       digitalWrite(YELLOW, LOW);                //Turn off other lights
       yellowState = false;
@@ -95,8 +91,8 @@ void loop() { // ** Create a web server - Adapted from https://github.com/todddb
     }
     if (request.indexOf("/yellow_on") != -1) {   // If the request is for the page "/yellow_on"
       autoState = false;
-      digitalWrite(YELLOW, !yellowState);             //   then set the YELLOW to high (turn on)
-      yellowState = !yellowState;                       //   and track the state
+      digitalWrite(YELLOW, HIGH);             //   then set the YELLOW to high (turn on)
+      yellowState = true;                       //   and track the state
       
       digitalWrite(RED, LOW);             //Turn off other lights
       redState = false;
@@ -105,8 +101,8 @@ void loop() { // ** Create a web server - Adapted from https://github.com/todddb
     }
     if (request.indexOf("/green_on") != -1) {   // If the request is for the page "/green_on"
       autoState = false;
-      digitalWrite(GREEN, !greenState);             //   then set the GREEN to high (turn on)
-      greenState = !greenState;                        //   and track the state  
+      digitalWrite(GREEN, HIGH);             //   then set the GREEN to high (turn on)
+      greenState = true;                        //   and track the state  
       
       digitalWrite(RED, LOW);                       //Turn off other lights
       redState = false;
@@ -123,7 +119,17 @@ void loop() { // ** Create a web server - Adapted from https://github.com/todddb
       allOff();
       autoState = true;
      }
-     
+
+    if (request.indexOf("/toggle_red") != -1) {   // If the request is for the page "/toggle_red"
+      autoState = false;
+      digitalWrite(RED, !redState);    // flip state 
+      redState = !redState;                        
+      
+      digitalWrite(GREEN, LOW);                 
+      greenState = false;
+      digitalWrite(YELLOW, LOW);
+      yellowState = false; 
+    }
      
  
     // Return the html page
