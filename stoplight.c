@@ -11,6 +11,7 @@ const char *server = "172.20.10.13";
 //**  Connect to MQTT Adapted from Todd Barrett’s Example code **//
 
 char *dataTopic = "/data";
+char *doorTopic = "/door";
 String macAddr = WiFi.macAddress();       // Store arduino MAC address as a string
 String host = "arduino-" + macAddr.substring(15) ;  // Create hostname for this device
 char *connectTopic = "/connect";
@@ -22,7 +23,7 @@ PubSubClient mqttClient(wifiClient); // Instantiate mqtt client
 int RED = D7; // Sets which GPIO pin we will use for the LEDS
 int YELLOW = D6;
 int GREEN = D5;
-int DOOR = D1;
+
 boolean doorState = true;
 boolean redState = false; // Tracks state of LEDS
 boolean yellowState = false;
@@ -55,8 +56,6 @@ void setup()
   pinMode(GREEN, OUTPUT);   // Set the LED pin to Output
   digitalWrite(GREEN, LOW); // Set the pin to LOW (Off)
 
-  pinMode(DOOR, INPUT);   // Set the LED pin to Output
-
   // ** Connect to WiFi network - Adapted from https://github.com/todddb/example-lab/blob/master/example-lab/example-lab.ino
   Serial.print("Connecting to "); // Display debugging connection info
   Serial.println(wifiSSID);       // Print the configured SSID to the Serial Monitor
@@ -76,7 +75,8 @@ void setup()
   mqttClient.setServer(server, 1883);          // Set up MQTT Connection Info
   mqttClient.setCallback(callback);            // Function to call when new messages are received
   mqttClient.connect(host.c_str());            // Connect to the broker with unique hostname
-  mqttClient.subscribe(dataTopic);             // Subscribe to the LED topic on the broker
+  mqttClient.subscribe(dataTopic);             // Subscribe to the data topic on the broker
+  mqttClient.subscribe(doorTopic);             // Subscribe to the data topic on the broker
   Serial.println(mqttClient.state());          // Show debug info about MQTT state
 }
 
@@ -125,8 +125,6 @@ void toggleRed()
 void loop()
 {
   mqttClient.loop(); // Check for new MQTT messages
-  doorState = digitalRead(DOOR); // Set the pin to LOW (Off)
-
   delay(100); // This introduces a little pause in each cycle. Probably helps save some power.
 }
 
@@ -147,7 +145,7 @@ void callback(char *topicChar, byte *payload, unsigned int length)
   Serial.println(message);           //    And the message
 
   if (topic == (String)dataTopic)
-  {
+  {   
       if(!doorState) {
         if (message == "green_on")
         {
@@ -169,6 +167,14 @@ void callback(char *topicChar, byte *payload, unsigned int length)
       }
       else {
         allOff();
+      }
+  }
+  if (topic == (String)doorTopic){
+      if(message == "door_close"){
+        doorState = true;
+      }
+      else if(message == "door_open"){
+        doorState = false;
       }
   }
 }

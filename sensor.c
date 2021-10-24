@@ -106,7 +106,7 @@ void loop() {
   }
 
 //**  Connect to MQTT Adapted from Todd Barrett’s Example code **//
-   char messageChar[message.length() + 1];                                                           // Create a char array as long as message
+    char messageChar[message.length() + 1];                                                           // Create a char array as long as message
     message.toCharArray(messageChar, message.length() + 1);                                           // Convert message to char
     mqttClient.publish(dataTopic, messageChar);     
     delay(500);
