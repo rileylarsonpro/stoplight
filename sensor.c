@@ -9,7 +9,7 @@ const char* wifiSSID = "Riley iPhone";
 const char* server = "172.20.10.13";
 //**  Connect to MQTT Adapted from Todd Barrett’s Example code **//
 
-char* dataTopic = "/data";
+char* distanceTopic = "/distance";
 char* connectTopic = "/connect";
 char* disconnectTopic = "/disconnect";
 
@@ -65,7 +65,7 @@ void setup() {                        // Perform this part once when first power
   }
 
   // ------- MQTT Subscribe to a topic -------
-  mqttClient.subscribe(dataTopic);
+  mqttClient.subscribe(distanceTopic);
 
   
 
@@ -92,23 +92,12 @@ void loop() {
   float inches = duration * 0.013504/2;
   Serial.println(duration * 0.013504/2);
 
-  if (inches >= 10 ){ // GREEN STATE
-    message = "green_on"; // Capture the MAC address and state
-  }
-  else if (inches >= 6 ){ // YELLOW STATE
-    message = "yellow_on"; // Capture the MAC address and state
-  }
-  else if (inches >= 4) { // RED STATE
-    message = "red_on"; // Capture the MAC address and state
-  }
-  else { // FLASHING STATE
-    message = "toggle_red";
-  }
+  message = (String)inches;
 
 //**  Connect to MQTT Adapted from Todd Barrett’s Example code **//
     char messageChar[message.length() + 1];                                                           // Create a char array as long as message
     message.toCharArray(messageChar, message.length() + 1);                                           // Convert message to char
-    mqttClient.publish(dataTopic, messageChar);     
+    mqttClient.publish(distanceTopic, messageChar);     
     delay(500);
 }
 
